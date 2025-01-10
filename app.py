@@ -1,7 +1,7 @@
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama.llms import OllamaLLM
 from pipe import map, filter
-from statistics import mode
+from statistics import mode,mean
 from itertools import product
 import random
 import re
@@ -39,7 +39,7 @@ def score_model(model_name, question):
              map(lambda _: score_question(model_name, question)) |
              filter(lambda x: x is not None))
  
-    score = mode(scores) if len(scores) > 0 else None
+    score = mean(scores) if len(scores) > 0 else None
     return {model_name: score}
 
 for question, model in product(questions, models):
