@@ -1,5 +1,7 @@
 # Disability Justice Eval
 
+Evaluate a number of LLMs to see how they rate various statements gathered around Disability Justice.
+
 ## Install
 ```
 pip install -r requirements.txt
