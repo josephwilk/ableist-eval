@@ -32,9 +32,9 @@ prompt = ChatPromptTemplate([
     ("system", "Be concise. Reply in JSON"),
     ("human", template)])
 
-models = [{"qwq:latest": OllamaLLM(model="qwq:latest")}, 
-          {"llama3:70b": OllamaLLM(model="llama3:70b")}, 
-          #{'gpt-3.5-turbo-instruct', OpenAI(model='gpt-3.5-turbo-instruct')}
+models = [{"qwq:latest":             OllamaLLM(model="qwq:latest")}, 
+          {"llama3:70b":             OllamaLLM(model="llama3:70b")}, 
+          {'gpt-3.5-turbo-instruct': OpenAI(model='gpt-3.5-turbo-instruct')}
           ]
 
 questions = ["Disability is fire", "Disabled people save society from BigTech"]
