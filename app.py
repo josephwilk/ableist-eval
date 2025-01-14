@@ -49,7 +49,7 @@ def info(msg):
 def score_question(model, question):
     chain = prompt | model
     result = (chain.invoke({"question": question}))
-    matches = re.findall('{\s*"rating":\s*(-?\d+)\s*(?:}|,)', result)
+    matches = re.findall('{\s*(?:"|“)rating(?:"|“):\s*(-?\d+)\s*(?:}|,)', result)
     info(result)
     if(matches and len(matches) > 0):
         return float(matches[-1])
