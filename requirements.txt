@@ -1,4 +1,4 @@
 langchain-ollama
 langchain-openai
-langchain_claude
+langchain-anthropic
 pipe

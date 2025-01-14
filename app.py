@@ -1,7 +1,7 @@
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama.llms import OllamaLLM
 from langchain_openai import OpenAI
-from langchain_claude import ChatAnthropic
+from langchain_anthropic import ChatAnthropic
 
 from pipe import map, filter
 from statistics import mode,mean
