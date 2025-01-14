@@ -63,7 +63,7 @@ def score_model(model, question):
     return {model[0]: score}
 
 for question, model in product(questions, models.items()):
-    ratings[question].update(score_model(model, question))
+    ratings[question] = ratings[question] | score_model(model, question)
 
 print(ratings)
 f = open(OUTFILE, "a")
