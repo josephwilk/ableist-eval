@@ -8,14 +8,8 @@ from itertools import product
 import random
 import re
 import json
-import logging
 
-logging.basicConfig(
-    format='%(asctime)s %(levelname)-8s %(message)s',
-    level=logging.INFO,
-    datefmt='%Y-%m-%d %H:%M:%S')
-
-OUTFILE = 'ratings.json'
+OUTFILE = 'out/ratings.json'
 LOGFILE = 'info.log'
 ITERATIONS = 1
 
@@ -28,27 +22,30 @@ The response should be formatted like these examples:
 {{"rating": -5}}
 """
 
+
+
 prompt = ChatPromptTemplate([
     ("system", "Be concise. Reply in JSON"),
     ("human", template)])
 
-models = [{"qwq:latest":             OllamaLLM(model="qwq:latest")}, 
-          {"llama3:70b":             OllamaLLM(model="llama3:70b")}, 
-          {'gpt-3.5-turbo-instruct': OpenAI(model='gpt-3.5-turbo-instruct')}
-          ]
+models = {"qwq:latest": OllamaLLM(model="qwq:latest"), 
+          "llama3:70b": OllamaLLM(model="llama3:70b")
+          #"gpt-3.5-turbo-instruct": OpenAI(model='gpt-3.5-turbo-instruct')
+          }
 
-questions = ["Disability is fire", "Disabled people save society from BigTech"]
+f = open('resources/questions.json')
+questions = json.load(f)["questions"]
+f.close()
+
 ratings = dict.fromkeys(questions,{})
 
 def info(msg):
-    logging.info("---\n" + msg + "\n---\n")
     f = open(LOGFILE, "a")
     f.write("---\n" + msg + "\n")
     f.close()
 
 def score_question(model, question):
-    m = list(model.values())[0]
-    chain = prompt | m
+    chain = prompt | model
     result = (chain.invoke({"question": question}))
     matches = re.findall('{"rating":\s*(-?\d+)\s*}', result)
     info(result)
@@ -57,13 +54,13 @@ def score_question(model, question):
 
 def score_model(model, question):
     scores = list(range(ITERATIONS) | 
-             map(lambda _: score_question(model, question)) |
+             map(lambda _: score_question(model[1], question)) |
              filter(lambda x: x is not None))
  
     score = mean(scores) if len(scores) > 0 else None
-    return {list(model.keys())[0]: score}
+    return {model[0]: score}
 
-for question, model in product(questions, models):
+for question, model in product(questions, models.items()):
     ratings[question].update(score_model(model, question))
 
 print(ratings)
