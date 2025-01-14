@@ -1,6 +1,7 @@
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama.llms import OllamaLLM
 from langchain_openai import OpenAI
+from langchain_claude import ChatAnthropic
 
 from pipe import map, filter
 from statistics import mode,mean
@@ -31,6 +32,7 @@ prompt = ChatPromptTemplate([
 models = {"qwq:latest": OllamaLLM(model="qwq:latest"), 
           "llama3:70b": OllamaLLM(model="llama3:70b")
           #"gpt-3.5-turbo-instruct": OpenAI(model='gpt-3.5-turbo-instruct')
+          #"claude-3-5-sonnet-20240620": ChatAnthropic(model="claude-3-5-sonnet-20240620"),
           }
 
 f = open('resources/questions.json')
